@@ -1,5 +1,6 @@
 package com.eloan.base.service.impl;
 
+import com.eloan.base.util.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,19 @@ public class UserinfoServiceImpl implements UserinfoService {
 		// TODO Auto-generated method stub
 		return userinfoMapper.selectByPrimaryKey(id);
 	}
-	
-	
+
+	@Override
+	public void updateUserInfo(String realname, String idNumber) {
+		// TODO Auto-generated method stub
+		
+		Long id = UserContext.getCurrent().getId();
+		userinfoMapper.updateByPrimaryKey(id,realname,idNumber);
+	}
+
+	@Override
+	public void save(Userinfo userinfo) {
+		userinfoMapper.updateByPrimaryKey(userinfo);
+	}
+
 
 }

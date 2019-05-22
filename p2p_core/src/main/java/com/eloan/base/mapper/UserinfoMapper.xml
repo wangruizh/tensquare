@@ -4,10 +4,10 @@
   <resultMap id="BaseResultMap" type="com.eloan.base.domain.Userinfo" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="version" property="version" jdbcType="INTEGER" />
-    <result column="bitState" property="bitstate" jdbcType="BIGINT" />
-    <result column="realName" property="realname" jdbcType="VARCHAR" />
-    <result column="idNumber" property="idnumber" jdbcType="VARCHAR" />
-    <result column="phoneNumber" property="phonenumber" jdbcType="VARCHAR" />
+    <result column="bitState" property="bitState" jdbcType="BIGINT" />
+    <result column="realName" property="realName" jdbcType="VARCHAR" />
+    <result column="idNumber" property="idNumber" jdbcType="VARCHAR" />
+    <result column="phoneNumber" property="phoneNumber" jdbcType="VARCHAR" />
     <result column="incomeGrade_id" property="incomegradeId" jdbcType="BIGINT" />
     <result column="marriage_id" property="marriageId" jdbcType="BIGINT" />
     <result column="kidCount_id" property="kidcountId" jdbcType="BIGINT" />
@@ -16,53 +16,100 @@
     <result column="authScore" property="authscore" jdbcType="INTEGER" />
     <result column="realauthId" property="realauthid" jdbcType="BIGINT" />
     <result column="email" property="email" jdbcType="VARCHAR" />
-    <result column="realauth" property="realauth" jdbcType="BOOLEAN" ></result>
   </resultMap>
+  
+  <resultMap id="FullResultMap" type="com.eloan.base.domain.Userinfo" >
+  	<id column="id" property="id" jdbcType="BIGINT" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="bitState" property="bitState" jdbcType="BIGINT" />
+    <result column="realName" property="realName" jdbcType="VARCHAR" />
+    <result column="idNumber" property="idNumber" jdbcType="VARCHAR" />
+    <result column="phoneNumber" property="phoneNumber" jdbcType="VARCHAR" />
+    <result column="bindPhone" property="bindPhone" jdbcType="BOOLEAN" />
+    <result column="bindEmail" property="bindEmail" jdbcType="BOOLEAN" />
+    <result column="realAuth" property="realAuth" jdbcType="BOOLEAN" />
+    <association property="incomeGrade" column="incomeGrade_id" javaType="SystemDictionaryItem" select="com.eloan.base.mapper.SystemdictionaryitemMapper.selectByPrimaryKey" />
+  	<association property="marriage" column="marriage_id" javaType="SystemDictionaryItem" select="com.eloan.base.mapper.SystemdictionaryitemMapper.selectByPrimaryKey" />
+  	<association property="kidCount" column="kidCount_id" javaType="SystemDictionaryItem" select="com.eloan.base.mapper.SystemdictionaryitemMapper.selectByPrimaryKey" />
+  	<association property="educationBackground" column="educationBackground_id" javaType="SystemDictionaryItem" select="com.eloan.base.mapper.SystemdictionaryitemMapper.selectByPrimaryKey" />
+  	<association property="houseCondiion" column="houseCondition_id" javaType="SystemDictionaryItem" select="com.eloan.base.mapper.SystemdictionaryitemMapper.selectByPrimaryKey" />
+  </resultMap>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from userinfo
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.eloan.base.domain.Userinfo" useGeneratedKeys="true" keyProperty="id" >
-    insert into userinfo (version, bitState, realName, 
+  <insert id="insert" parameterType="com.eloan.base.domain.Userinfo"  keyProperty="id" >
+    insert into userinfo (id,version, bitState, realName, 
       idNumber, phoneNumber, incomeGrade_id, 
       marriage_id, kidCount_id, educationBackground_id, 
       houseCondition_id, authScore, realauthId, 
       email)
-    values (#{version,jdbcType=INTEGER}, #{bitstate,jdbcType=BIGINT}, #{realname,jdbcType=VARCHAR}, 
-      #{idnumber,jdbcType=VARCHAR}, #{phonenumber,jdbcType=VARCHAR}, #{incomegradeId,jdbcType=BIGINT}, 
-      #{marriageId,jdbcType=BIGINT}, #{kidcountId,jdbcType=BIGINT}, #{educationbackgroundId,jdbcType=BIGINT}, 
-      #{houseconditionId,jdbcType=BIGINT}, #{authscore,jdbcType=INTEGER}, #{realauthid,jdbcType=BIGINT}, 
+    values (#{id},0, 0, #{realName,jdbcType=VARCHAR}, 
+      #{idNumber,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR}, 0, 
+      0, 0, 0, 
+      0, #{authScore,jdbcType=INTEGER}, #{realauthId,jdbcType=BIGINT}, 
       #{email,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.eloan.base.domain.Userinfo" >
     update userinfo
-    set version = #{version,jdbcType=INTEGER},
-      bitState = #{bitstate,jdbcType=BIGINT},
-      realName = #{realname,jdbcType=VARCHAR},
-      idNumber = #{idnumber,jdbcType=VARCHAR},
-      phoneNumber = #{phonenumber,jdbcType=VARCHAR},
+    set version = version +1,
+      bitState = #{bitState,jdbcType=BIGINT},
+      realName = #{realName,jdbcType=VARCHAR},
+      idNumber = #{idNumber,jdbcType=VARCHAR},
+      phoneNumber = #{phoneNumber,jdbcType=VARCHAR},
       incomeGrade_id = #{incomegradeId,jdbcType=BIGINT},
       marriage_id = #{marriageId,jdbcType=BIGINT},
       kidCount_id = #{kidcountId,jdbcType=BIGINT},
       educationBackground_id = #{educationbackgroundId,jdbcType=BIGINT},
       houseCondition_id = #{houseconditionId,jdbcType=BIGINT},
-      authScore = #{authscore,jdbcType=INTEGER},
-      realauthId = #{realauthid,jdbcType=BIGINT},
+      authScore = #{authScore,jdbcType=INTEGER},
+      realauthId = #{realauthId,jdbcType=BIGINT},
       email = #{email,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT} AND version = #{version}
   </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select id, version, bitState, realName, idNumber, phoneNumber, incomeGrade_id, marriage_id, 
-    kidCount_id, educationBackground_id, houseCondition_id, authScore, realauthId, email,
-    CASE
-    WHEN LENGTH(realauthId) > 0 THEN TRUE
-         ELSE FALSE
-         END AS realauth
-    from userinfo
-    where id = #{id,jdbcType=BIGINT}
+  <select id="selectByPrimaryKey" resultMap="FullResultMap" parameterType="java.lang.Long" >
+    SELECT
+		id,
+		version,
+		bitState,
+		realName,
+		idNumber,
+		phoneNumber,
+		incomeGrade_id,
+		marriage_id,
+		kidCount_id,
+		educationBackground_id,
+		houseCondition_id,
+		authScore,
+		realauthId,
+		email,
+		CASE
+	WHEN LENGTH(phoneNumber) > 0 THEN
+		TRUE
+	ELSE
+		FALSE
+	END AS bindPhone,
+	 CASE
+	WHEN LENGTH(email) > 0 THEN
+		TRUE
+	ELSE
+		FALSE
+	END AS bindEmail,
+	 CASE
+	WHEN LENGTH(idNumber) > 0 THEN
+		TRUE
+	ELSE
+		FALSE
+	END AS realAuth
+	FROM
+		userinfo
+	WHERE
+		id = #{id,jdbcType=BIGINT}
+
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select id, version, bitState, realName, idNumber, phoneNumber, incomeGrade_id, marriage_id, 
+    select id, version, bitState, realName, idNumber, phoneNumber, incomeGrade_id, marriage_id,
     kidCount_id, educationBackground_id, houseCondition_id, authScore, realauthId, email
     from userinfo
   </select>

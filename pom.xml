@@ -138,5 +138,6 @@
     <modules>
         <module>p2p_core</module>
         <module>p2p_uiweb</module>
+        <module>p2p_mgrtool</module>
     </modules>
 </project>

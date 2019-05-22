@@ -1,12 +1,16 @@
 package com.eloan.base.service.impl;
 
+import com.eloan.base.util.MD5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.eloan.base.domain.Account;
 import com.eloan.base.domain.Logininfo;
+import com.eloan.base.domain.Userinfo;
+import com.eloan.base.mapper.AccountMapper;
 import com.eloan.base.mapper.LogininfoMapper;
+import com.eloan.base.mapper.UserinfoMapper;
 import com.eloan.base.service.LogininfoService;
-import com.eloan.base.util.MD5;
 
 
 @Service
@@ -14,6 +18,12 @@ public class LogininfoServiceImpl implements LogininfoService {
 
 	@Autowired
 	private LogininfoMapper logininfoMapper;
+	
+	@Autowired
+	private AccountMapper accountMapper;
+	
+	@Autowired
+	private UserinfoMapper userinfoMapper;
 	
 	@Override
 	public void register(String username, String password) {
@@ -31,8 +41,10 @@ public class LogininfoServiceImpl implements LogininfoService {
 			// 修改时间：2019-5-14
 			// 修改人：仵志松
 			// V2.0 begin
-//			Account account = new Account();
-//			Userinfo userinfo = new Userinfo();
+			Account account =Account.empty(info.getId());
+			this.accountMapper.insert(account);
+			Userinfo userinfo = Userinfo.empty(info.getId());
+			this.userinfoMapper.insert(userinfo);
 			// V2.0 end
 		} else {
 			throw new RuntimeException("用户名已存在");

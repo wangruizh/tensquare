@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eloan.base.mapper.IplogMapper" >
+  <resultMap id="BaseResultMap" type="com.eloan.base.domain.IpLog" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="loginstate" property="loginstate" jdbcType="TINYINT" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="logininfoid" property="logininfoid" jdbcType="BIGINT" />
+    <result column="logintype" property="logintype" jdbcType="TINYINT" />
+    <result column="logintime" property="logintime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id = "base_column">
+  	 id, ip, loginstate, username, logininfoid, logintype, logintime
+  </sql>
+  <sql id = "query_where">
+  	  <where>
+  	  	<if test = "beginDate != null" >
+  	  		AND logintime $gt;= #{beginDate}
+  	  	</if>
+  	  	<if test = "endDate != null" >
+  	  		AND logintime $lt;= #{endDate}
+  	  	</if>
+  	  	<if test = "state >-1" >
+  	  		AND loginstate = #{state}
+  	  	</if>
+  	  	<if test = "username != null and like" >
+  	  		AND username like concat('%',#{username},'%')
+  	  	</if>
+  	  	<if test = "username != null and !like" >
+  	  		AND username = #{username}
+  	  	</if>
+  	  </where>
+  </sql>
+  <select id="queryForCount" resultType="int">
+  		select count(id) from iplog
+  		<include refid="query_where"/>
+  </select>
+  <select id="query" resultMap="BaseResultMap">
+  	select <include refid="base_column"/>
+  	from iplog <include refid="query_where"/>
+  	order by logintime desc
+  	<if test = "pageSize&gt;-1">
+  		limit #{start},#{pageSize}
+  	</if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from iplog
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  
+  <insert id="insert" parameterType="com.eloan.base.domain.IpLog" useGeneratedKeys="true" keyProperty="id" >
+    insert into iplog (ip, loginstate, username, 
+      logininfoid, logintype
+      )
+    values (#{ip,jdbcType=VARCHAR}, #{loginstate,jdbcType=TINYINT}, #{username,jdbcType=VARCHAR}, 
+      #{logininfoid,jdbcType=BIGINT}, #{logintype,jdbcType=TINYINT}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.eloan.base.domain.IpLog" >
+    update iplog
+    set ip = #{ip,jdbcType=VARCHAR},
+      loginstate = #{loginstate,jdbcType=TINYINT},
+      username = #{username,jdbcType=VARCHAR},
+      logininfoid = #{logininfoid,jdbcType=BIGINT},
+      logintype = #{logintype,jdbcType=TINYINT},
+      logintime = #{logintime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, ip, loginstate, username, logininfoid, logintype, logintime
+    from iplog
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, ip, loginstate, username, logininfoid, logintype, logintime
+    from iplog
+  </select>
+</mapper>

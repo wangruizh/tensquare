@@ -12,6 +12,20 @@
     <artifactId>p2p_core</artifactId>
 
 
+    <dependencies>
+        <!-- 使用阿里云的身份认证-身份证二要素核验-身份证一致性验证-身份证实名认证   开始 -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>4.2.1</version>
+        </dependency>
+        <!-- 使用阿里云的身份认证-身份证二要素核验-身份证一致性验证-身份证实名认证    结束 -->
+    </dependencies>
 
     <build>
         <plugins>

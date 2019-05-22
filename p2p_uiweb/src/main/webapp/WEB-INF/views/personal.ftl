@@ -46,25 +46,25 @@
 							
 							<div class="row h4 account-info">
 								<div class="col-sm-4">
-									账户总额：<span class="text-primary"><#--${account.totalAmount}-->元</span>
+									账户总额：<span class="text-primary">${account.totalAmount}元</span>
 								</div>
 								<div class="col-sm-4">
-									可用金额：<span class="text-primary">${account.usableamount}元</span>
+									可用金额：<span class="text-primary">${account.usableAmount}元</span>
 								</div>
 								<div class="col-sm-4">
-									冻结金额：<span class="text-primary">${account.freezedamount}元</span>
+									冻结金额：<span class="text-primary">${account.freezedAmount}元</span>
 								</div>
 							</div>
 							
 							<div class="row h4 account-info">
 								<div class="col-sm-4">
-									待收利息：<span class="text-primary">${account.unreceiveinterest}元</span>
+									待收利息：<span class="text-primary">${account.unReceiveInterest}元</span>
 								</div>
 								<div class="col-sm-4">
-									待收本金：<span class="text-primary">${account.unreceiveprincipal}元</span>
+									待收本金：<span class="text-primary">${account.unReceivePrincipal}元</span>
 								</div>
 								<div class="col-sm-4">
-									待还本息：<span class="text-primary">${account.unreturnamount}元</span>
+									待还本息：<span class="text-primary">${account.unReturnAmount}元</span>
 								</div>
 							</div>
 							
@@ -77,7 +77,7 @@
 											</div>
 											<div class="el-accoun-auth-right">
 												<h5>实名认证</h5>
-												<#if userinfo.realauth>
+												<#if userinfo.realAuth>
 												<p>
 													已认证
 													<a href="/realAuth.do">查看</a>
@@ -100,7 +100,7 @@
 											</div>
 											<div class="el-accoun-auth-right">
 												<h5>手机认证</h5>
-												<#if userinfo.isbindphone>
+												<#if userinfo.bindPhone>
 												<p>
 													已认证
 													<a href="#">查看</a>
@@ -123,7 +123,7 @@
 											</div>
 											<div class="el-accoun-auth-right">
 												<h5>邮箱认证</h5>
-												<#if userinfo.isbindemail>
+												<#if userinfo.bindEmail>
 												<p>
 													已认证
 													<a href="#">查看</a>
@@ -166,7 +166,7 @@
 			</div>
 		</div>
 	
-		<#if !userinfo.isBindPhone>
+		<#if !userinfo.bindPhone>
 		<div class="modal fade" id="bindPhoneModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
 		  <div class="modal-dialog" role="document">
 		    <div class="modal-content">
@@ -200,7 +200,7 @@
 		</div>
 		</#if>
 		
-		<#if !userinfo.isBindEmail>
+		<#if !userinfo.bindEmail>
 		<div class="modal fade" id="bindEmailModal" tabindex="-1" role="dialog" aria-labelledby="bindEmailModalLabel">
 		  <div class="modal-dialog" role="document">
 		    <div class="modal-content">

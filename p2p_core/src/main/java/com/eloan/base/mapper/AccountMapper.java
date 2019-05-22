@@ -1,8 +1,6 @@
 package com.eloan.base.mapper;
 
 import com.eloan.base.domain.Account;
-import org.mybatis.spring.annotation.MapperScan;
-
 import java.util.List;
 
 public interface AccountMapper {

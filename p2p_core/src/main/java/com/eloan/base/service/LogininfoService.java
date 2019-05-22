@@ -9,7 +9,7 @@ public interface LogininfoService {
 	 * @param username 用户名
 	 * @param password 密码
 	 */
-	public void register(String username,String password);
+	public void register(String username, String password);
 
 	/**
 	 * 判断用户名是否被占用
@@ -26,6 +26,6 @@ public interface LogininfoService {
 	 * @param ip 
 	 * @return
 	 */
-	Logininfo login(String username, String password, int usertype,String ip);
+	Logininfo login(String username, String password, int usertype, String ip);
 
 }

@@ -37,13 +37,13 @@
     select id, username, password, state, usertype, admin
     from logininfo
   </select>
-
+  
+  
   <select id="getCountByUserName" resultType="int">
   	select count(*) from logininfo where username = #{username}
   </select>
   
-  
-   <select id="selectByUserNameAndPwd" resultMap="BaseResultMap">
+    <select id="selectByUserNameAndPwd" resultMap="BaseResultMap">
   	select 
 		*
     from logininfo
@@ -53,6 +53,6 @@
    		password = #{password}
     and
     	usertype = #{usertype}
-   </select>
+  </select>
   
 </mapper>

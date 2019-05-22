@@ -19,14 +19,11 @@ public class PersonalController {
 	@Autowired
 	private UserinfoService userinfoService;
 	
-	@RequestMapping("/personal")
-	public String personal(Model model) {
-		Logininfo current = UserContext.getCurrent();
+		@RequestMapping("/personal")
+		public String personal(Model model) {
+			Logininfo current = UserContext.getCurrent();
 		model.addAttribute("userinfo", userinfoService.get(current.getId()));
 		model.addAttribute("account", accountService.get(current.getId()));
-		// 调试时间： 16.42
-		// 用途： 测试是否经过此处，是否查询到数据
-		System.out.println(model);
 		return "personal";
 	}
 	
